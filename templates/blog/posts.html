@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>posts archive</title>
+</head>
+<body>
+<ul>
+    {% for post in posts %}
+        <li>
+            <a href="{% url 'post_single' post.slug %}">{{ post.title }}</a>
+        </li>
+    {% endfor %}
+</ul>
+<ul>
+    {% for category in categories %}
+        <li>
+            <a href="{% url 'category_single' category.slug %}">{{ category.title }}</a>
+        </li>
+    {% endfor %}
+</ul>
+</body>
+</html>

@@ -1,0 +1,45 @@
+{% extends 'base/base.html' %}
+
+{% load static %}
+{% block title %}
+    zoomit || {{ post.title }}
+{% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="card" style="width:100%">
+            <img class="card-img-top" src="{{ post.image.url }}" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">{{ post.title }}</h5>
+                {% if settings.author %}
+                    <p>
+                        نویسنده: {{ author.first_name }} {{ author.last_name }}
+                    </p>
+                {% endif %}
+                <p> دسته بندی: <a href="{% url 'category_single' category.slug %}">{{ category.title }}</a>
+                    تاریخ انتشار: {{ post.publish_time }}
+                </p>
+                <p class="card-text">
+                    {{ post.content }}
+                </p>
+                {% if settings.allow_discussion %}
+                    {% if settings.comment %}
+                        <form>
+                            <input name="content" type="text">
+                        </form>
+                    {% endif %}
+                    <div>
+                        {% for comment in comments %}
+                            <div>
+                                {{ comment.author.first_name }} {{ comment.author.last_name }}
+                                <div>
+                                    {{ comment.content }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
