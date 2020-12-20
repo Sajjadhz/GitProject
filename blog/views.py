@@ -9,10 +9,16 @@ def home(request):
     category = request.GET.get('category', None)
     posts = Post.objects.all()
     if author:
+        # print("author in home:" + author)
         posts = posts.filter(author__username=author)
     if category:
+        # print("category in home:" + category)
         posts = posts.filter(category__slug=category)
+    # print("posts in home:")
+    # print(posts)
     categories = Category.objects.all()
+    # print("categories in home:")
+    # print(categories)
     context = {
         "posts": posts,
         "categories": categories,
@@ -23,7 +29,12 @@ def home(request):
 def single(request, pk):
     try:
         post = Post.objects.select_related('post_setting', 'category', 'author').get(slug=pk)
-        print(post)
+        # print("post in single:")
+        # print(post)
+        # print(post.post_setting)
+        # print(post.category)
+        # print(post.author)
+        # print(post.comments)
     except Post.DoesNotExist:
         raise Http404('post not found')
     context = {
@@ -38,10 +49,13 @@ def single(request, pk):
 
 def category_single(request, pk):
     try:
+        print(request, pk)
         category = Category.objects.get(slug=pk)
+        print(category)
     except Category.DoesNotExist:
         raise Http404('Category not found')
     posts = Post.objects.filter(category=category)
+    print(posts)
     links = ''.join(
         '<li><a href={}>{}</a></li>'.format(reverse('post_single', args=[post.slug]), post.title) for post in posts)
     blog = '<html><head><title>post archive</title></head>{}<a href={}>all categories</a></body></html>'.format(
