@@ -6,6 +6,8 @@ from .models import Post, Category
 
 def home(request):
     author = request.GET.get('author', None)
+    first_name - author.first_name # added in develop
+    last_name = author.last_name # added in develop
     category = request.GET.get('category', None)
     posts = Post.objects.all()
     if author:
